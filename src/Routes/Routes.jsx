@@ -4,6 +4,8 @@ import Home from "../Pages/Home"
 import Dashboard from "../Pages/Dashboard";
 import Overview from "../Components/Overview";
 import Analytics from "../Components/Analytics";
+import Signup from "../Pages/signup/Signup";
+
 
 const router = createBrowserRouter([
     {
@@ -25,6 +27,11 @@ const router = createBrowserRouter([
             {
                 path: 'send',
                 element: <h1>Send Email</h1>
+            } 
+            ,
+            {
+                path: 'signup',
+                element: <Signup/>
             } 
         ]
 
