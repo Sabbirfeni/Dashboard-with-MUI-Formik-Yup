@@ -1,7 +1,7 @@
 import React from 'react'
 import { ErrorMessage, Field } from 'formik';
 import FormError from '../FormError';
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
+import { FormControl, FormControlLabel, FormHelperText, FormLabel, Radio, RadioGroup } from '@mui/material';
 
 function RadioInput(props) {
     const { label, name, options, ...rest } = props;
@@ -10,37 +10,27 @@ function RadioInput(props) {
  
         <Field name={name} {...rest}>
             {
-                ({field}) => {
+                ({ field, form }) => {
+                  const { errors, touched } = form;
                     return (
-                        <FormControl component="fieldset">
+                        <FormControl component="fieldset" error={Boolean(errors[name]) && Boolean(touched[name])}>
+                          <FormLabel id="demo-error-radios">{label}</FormLabel>
                         {/* <FormLabel >Gender</FormLabel> */}
-                        <RadioGroup aria-label="gender" name="gender1" value='' onChange={() => console.log('s')}>
-                          <FormControlLabel value="female" control={<Radio />} label="Female" />
-                          <FormControlLabel value="male" control={<Radio />} label="Male" />
-                          <FormControlLabel value="other" control={<Radio />} label="Other" />
-                          <FormControlLabel value="disabled" disabled control={<Radio />} label="(Disabled option)" />
+                        <RadioGroup aria-label="gender" name={name} >
+                          {
+                            options.map(option => {
+                              return (
+                                  <FormControlLabel key={option.key} {...field}  value={option.value} control={<Radio />} label={option.key} /> 
+                              )
+                            })
+                          }
                         </RadioGroup>
+                        <FormHelperText>{Boolean(touched[name]) && errors[name]}</FormHelperText>
                       </FormControl>
                     )
-                    // return options.map(option => {
-                    //     return (
-                    //         <React.Fragment key={option.key}>
-                    //             <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
-                    //             <input 
-                    //             type='radio' 
-                    //             id={option.value} 
-                    //             {...field} 
-                    //             value={option.value} 
-                    //             checked={field.value === option.value}
-                    //             />
-                    //             <label htmlFor={option.value}>{option.key}</label>
-                    //         </React.Fragment>
-                    //     )
-                    // })
                 }
             }
         </Field>
-        <ErrorMessage name={name} component={FormError}/>
     </div>
   )
 }
